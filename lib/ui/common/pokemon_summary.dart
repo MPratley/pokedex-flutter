@@ -11,25 +11,31 @@ class PokemonSummary extends StatelessWidget {
     return Stack(
       children: <Widget>[
         PokemonCard(pokemon),
-        PokemonThumbnail('https://www.serebii.net/art/th/${pokemon.id}.png')
+        PokemonThumbnail(pokemon.id)
       ],
     );
   }
 }
 
 class PokemonThumbnail extends StatelessWidget {
-  final String thumbnail;
-  PokemonThumbnail(this.thumbnail);
+  final int id;
+  final String url;
+  final String fileType;
+
+  PokemonThumbnail(this.id, {this.url = "https://www.serebii.net/art/th/", this.fileType = ".png"});
 
   @override
   Widget build(BuildContext context) {
     final _imageSize = 92.0;
-    return Container(
+    return Hero(
+      tag: 'pokemon-thumb-$id',
+      child: Container(
       margin: EdgeInsets.symmetric(vertical: 16),
       alignment: FractionalOffset.center,
-      child: Image.network(thumbnail),
+      child: Image.network(url + id.toString() + fileType),
       height: _imageSize,
       width: _imageSize,
+    ),
     );
   }
 }

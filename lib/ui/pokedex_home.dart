@@ -12,7 +12,6 @@ class PokedexHome extends StatelessWidget {
         ),
         body: Container(
           child: ListView.builder(
-            itemCount: 800,
             itemBuilder: (context, index) {
               final idx = index + 1;
               print(idx.toString());

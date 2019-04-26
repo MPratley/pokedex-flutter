@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pokedex_flutter/model/pokemon.dart';
 import 'package:pokedex_flutter/ui/common/pokemon_summary.dart';
 import 'package:pokedex_flutter/ui/common/pokemon_type_chip.dart';
+import 'package:pokedex_flutter/ui/detail/pokemon_detail_page.dart';
 
 class PokedexRow extends StatelessWidget {
   final Future<Pokemon> pokemon;
@@ -16,9 +17,25 @@ class PokedexRow extends StatelessWidget {
           future: pokemon,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
-              return PokemonSummary(snapshot.data);
+              return GestureDetector(
+                child: Hero(
+                  tag: "pokemon-summary-hero-${snapshot.data.id}",
+                  child: PokemonSummary(snapshot.data),
+                ),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              PokemonDetailPage(snapshot.data)));
+                },
+              );
             } else {
-              return CircularProgressIndicator();
+              return Container(
+                height: 96,
+                width: 96,
+                child: CircularProgressIndicator()
+                );
             }
           },
         ));
